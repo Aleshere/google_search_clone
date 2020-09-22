@@ -2,7 +2,7 @@
 const form = document.getElementById('form');
 
 // KEY 
-const API_KEY = process.env.API_KEY;
+const API_KEY = 'AIzaSyB_e20EKxEoQdw2WBx69UJHdH1aGytZGPc';
 
 // EVENT LISTENER on SUBMIT
 form.addEventListener('submit', (e) => {
