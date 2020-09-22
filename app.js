@@ -2,7 +2,7 @@
 const form = document.getElementById('form');
 
 // KEY 
-const API_KEY = secrets.API_KEY;
+const API_KEY = process.env.API_KEY;
 
 // EVENT LISTENER on SUBMIT
 form.addEventListener('submit', (e) => {
