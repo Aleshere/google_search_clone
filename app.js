@@ -28,6 +28,8 @@ const makeApiCall = async (query) => {
 
 // RENDERING FUNCTION + ERROR HANDLING (API RES GIVES INCONSISTENT RESULTS)
 const displaySearchResults = (arrayOfResults) => {
+    console.log(arrayOfResults);
+    
     const imagesPaginated = document.getElementById('imagesPaginated');
     const webResultsPaginated = document.getElementById('webResultsPaginated');
 
@@ -66,9 +68,46 @@ const displaySearchResults = (arrayOfResults) => {
                 <p>${resultToDisplay.htmlSnippet}</p>
             </li>
         `;
+        }).slice(0,per_page).join('');
+        // });
 
-        }).slice(0,5).join('');
-    webResultsPaginated.innerHTML = renderedWebSnippets;
+        console.log(paginator(renderedWebSnippets));
+
+        const paginatedSnippets = paginator(renderedWebSnippets).data;
+        const prevPage = paginator(renderedWebSnippets).pre_page;
+        const currentPage = paginator(renderedWebSnippets).page;
+        const nextPage = paginator(renderedWebSnippets).next_page;     
+
+    webResultsPaginated.innerHTML = `
+        ${paginatedSnippets}
+        <div>
+            <a onClick=${paginator(renderedWebSnippets,1,5)} >${prevPage ? prevPage : ''}</a>
+            <a >${currentPage}</a>
+            <a onClick=${paginator(renderedWebSnippets,2,5)} >${nextPage ? nextPage : ''}</a>
+        </div>
+    `;
+   
 };
+
+// Pagination 
+function paginator(items, page, per_page) {
+
+    var page = page || 1,
+    per_page = per_page || 5,
+    offset = (page - 1) * per_page,
+  
+    paginatedItems = items.slice(offset).slice(0, per_page).join(''),
+    total_pages = Math.ceil(searchResults.items.length / per_page);
+    return {
+    page: page,
+    per_page: per_page,
+    pre_page: page - 1 ? page - 1 : null,
+    next_page: (total_pages > page) ? page + 1 : null,
+    total: items.length,
+    total_pages: total_pages,
+    data: paginatedItems
+    };
+  }
+
 
 
